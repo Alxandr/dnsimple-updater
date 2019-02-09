@@ -13,7 +13,7 @@ steps:
   - bash: |
       mkdir -p $HOME/.docker
       echo "{\"experimental\":\"enabled\"}" > $HOME/.docker/config.json
-      echo "$(Docker.Password)" | docker login -u "$(Docker.Username)" --password-stdin
+      echo "$(DockerHub.Password)" | docker login -u "$(DockerHub.Username)" --password-stdin
       sudo docker run --rm --privileged multiarch/qemu-user-static:register
     displayName: Setup
   - bash: sudo -E ./fake.sh build --target Create-All-Manifests
