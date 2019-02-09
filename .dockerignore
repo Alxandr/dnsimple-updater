@@ -1,0 +1,5 @@
+.git
+.fake
+.paket
+!build
+paket-files

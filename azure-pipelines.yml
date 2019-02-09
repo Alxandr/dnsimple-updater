@@ -1,0 +1,23 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  - master
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+steps:
+  - bash: |
+      mkdir -p $HOME/.docker
+      echo "{\"experimental\":\"enabled\"}" > $HOME/.docker/config.json
+      echo "$(Docker.Password)" | docker login -u "$(Docker.Username)" --password-stdin
+      sudo docker run --rm --privileged multiarch/qemu-user-static:register
+    displayName: Setup
+  - bash: sudo -E ./fake.sh build --target Create-All-Manifests
+    displayName: Build
+    env:
+      GH_TOKEN: $(GitHub.Token)
+      FAKE_DETAILED_ERRORS: 'true'
