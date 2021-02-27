@@ -1,4 +1,4 @@
-FROM $DOCKER_ARCH/alpine:3.9
+FROM alpine:3.9
 
 LABEL maintainer="Aleksander Heintz <alxandr@alxandr.me>"
 
