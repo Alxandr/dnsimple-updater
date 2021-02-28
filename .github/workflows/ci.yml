@@ -12,7 +12,7 @@ jobs:
           fetch-depth: 0
 
       - name: 🔽 Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.9
+        uses: gittools/actions/gitversion/setup@v0.9.7
         with:
           versionSpec: "5.x"
 
@@ -30,7 +30,7 @@ jobs:
 
       - name: 🔍 Determine Version
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v0.9.9
+        uses: gittools/actions/gitversion/execute@v0.9.7
         with:
           useConfigFile: true
 
@@ -38,6 +38,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
+          push: ${{ github.ref == 'ref/head/master' }}
           platforms: |
             linux/amd64
             linux/arm64
