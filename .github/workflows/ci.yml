@@ -63,18 +63,17 @@ jobs:
         with:
           version: v3.4.0
 
-      - name: ⏬ Checkout charts repo
-        uses: actions/checkout@v2
-        with:
-          repository: alxandr/charts
-
+      # - name: ⏬ Checkout charts repo
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: alxandr/charts
       - name: ⏬ Checkout source repo
         uses: actions/checkout@v2
-        with:
-          path: .source
+        # with:
+        #   path: .source
 
-      - name: 🐌 Move charts into charts repo
-        run: mv .source/charts charts
+      # - name: 🐌 Move charts into charts repo
+      #   run: mv .source/charts charts
 
       - name: ✅ Set version in charts
         uses: jacobtomlinson/gha-find-replace@0.1.2
@@ -89,8 +88,10 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - name: 📦 Run chart-releaser
-        uses: helm/chart-releaser-action@v1.2.0
+        uses: YoloDev/chart-releaser-action@master
+        with:
+          repo: charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          CR_OWNER: alxandr
-          CR_GIT_REPO: charts
+          # CR_OWNER: alxandr
+          # CR_GIT_REPO: charts
