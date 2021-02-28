@@ -68,7 +68,7 @@ jobs:
         with:
           find: "__VERSION__"
           replace: ${{ needs.image.outputs.version }}
-          include: "charts/*/Chart.yaml"
+          include: "charts/[^/]*/Chart.yaml"
 
       - name: 🛠️ Configure Git
         run: |
