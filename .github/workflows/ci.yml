@@ -58,11 +58,6 @@ jobs:
     needs: image
 
     steps:
-      - name: 🛠️ Configure Git
-        run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-
       - name: 🔽 Install Helm
         uses: azure/setup-helm@v1
         with:
@@ -78,7 +73,7 @@ jobs:
         with:
           path: .source
 
-      - name: Move charts into charts repo
+      - name: 🐌 Move charts into charts repo
         run: mv .source/charts charts
 
       - name: ✅ Set version in charts
@@ -88,7 +83,12 @@ jobs:
           replace: ${{ needs.image.outputs.version }}
           include: "charts/[^/]*/Chart.yaml"
 
-      - name: Run chart-releaser
+      - name: 🛠️ Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: 📦 Run chart-releaser
         uses: helm/chart-releaser-action@v1.2.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
