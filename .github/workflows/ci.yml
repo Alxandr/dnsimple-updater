@@ -92,6 +92,6 @@ jobs:
         with:
           index_repo: charts
         env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_TOKEN: "${{ secrets.CHARTS_TOKEN }}"
           # CR_OWNER: alxandr
           # CR_GIT_REPO: charts
