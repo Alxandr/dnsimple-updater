@@ -6,11 +6,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
       - name: ⏬ Checkout
         uses: actions/checkout@v2
         with:
@@ -44,7 +39,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          push: ${{ github.ref == 'refs/head/master' }}
+          push: ${{ github.ref == 'refs/heads/master' }}
           platforms: |
             linux/amd64
             linux/arm64
