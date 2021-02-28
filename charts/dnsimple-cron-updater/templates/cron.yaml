@@ -1,0 +1,64 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "dnsimple-cron-updater.fullname" . }}
+  labels:
+    {{- include "dnsimple-cron-updater.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.cron.schedule | quote }}
+  concurrencyPolicy: {{ .Values.cron.concurrencyPolicy | quote }}
+  failedJobsHistoryLimit: {{ .Values.cron.failedJobsHistoryLimit }}
+  successfulJobsHistoryLimit: {{ .Values.cron.successfulJobsHistoryLimit }}
+  jobTemplate:
+    metadata:
+      {{- with .Values.jobAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "dnsimple-cron-updater.selectorLabels" . | nindent 8 }}
+    spec:
+      template:
+        metadata:
+          {{- with .Values.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          labels:
+            {{- include "dnsimple-cron-updater.selectorLabels" . | nindent 12 }}
+        spec:
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+          containers:
+            - name: {{ .Chart.Name }}
+              securityContext:
+                {{- toYaml .Values.securityContext | nindent 16 }}
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default (print "v" .Chart.AppVersion) }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              env:
+                - name: TOKEN
+                  value: {{ required "A valid .Values.dnsimple.token entry required!" .Values.dnsimple.token }}
+                - name: RECORD_ID
+                  value: {{ required "A valid .Values.dnsimple.recordId entry required!" .Values.dnsimple.recordId }}
+                - name: ACCOUNT_ID
+                  value: {{ required "A valid .Values.dnsimple.accountId entry required!" .Values.dnsimple.accountId }}
+                - name: ZONE_ID
+                  value: {{ required "A valid .Values.dnsimple.zoneId entry required!" .Values.dnsimple.zoneId }}
+              resources:
+                {{- toYaml .Values.resources | nindent 16 }}
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}

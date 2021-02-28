@@ -2,7 +2,8 @@ on: [push, pull_request]
 
 name: Continous Integration
 jobs:
-  build_and_deploy:
+  image:
+    name: Create image
     runs-on: ubuntu-latest
 
     steps:
@@ -46,3 +47,25 @@ jobs:
           tags: |
             alxandr/dnsimple-updater:latest
             alxandr/dnsimple-updater:v${{ steps.gitversion.outputs.fullSemVer }}
+
+    outputs:
+      version: ${{ steps.gitversion.outputs.fullSemVer }}
+
+  helm:
+    name: Create helm chart
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    needs: image
+
+    steps:
+      - name: ⏬ Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: ✅ Set version in charts
+        uses: jacobtomlinson/gha-find-replace@0.1.2
+        with:
+          find: "__VERSION__"
+          replace: ${{ needs.image.outputs.version }}
+          include: "charts/*/Chart.yaml"
