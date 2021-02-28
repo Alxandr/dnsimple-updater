@@ -90,7 +90,7 @@ jobs:
       - name: 📦 Run chart-releaser
         uses: YoloDev/chart-releaser-action@master
         with:
-          repo: charts
+          index_repo: charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           # CR_OWNER: alxandr
