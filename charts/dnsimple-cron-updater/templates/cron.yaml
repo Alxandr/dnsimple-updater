@@ -41,13 +41,13 @@ spec:
               imagePullPolicy: {{ .Values.image.pullPolicy }}
               env:
                 - name: TOKEN
-                  value: {{ required "A valid .Values.dnsimple.token entry required!" .Values.dnsimple.token }}
+                  value: {{ required "A valid .Values.dnsimple.token entry required!" .Values.dnsimple.token | quote }}
                 - name: RECORD_ID
-                  value: {{ required "A valid .Values.dnsimple.recordId entry required!" .Values.dnsimple.recordId }}
+                  value: {{ required "A valid .Values.dnsimple.recordId entry required!" .Values.dnsimple.recordId | quote }}
                 - name: ACCOUNT_ID
-                  value: {{ required "A valid .Values.dnsimple.accountId entry required!" .Values.dnsimple.accountId }}
+                  value: {{ required "A valid .Values.dnsimple.accountId entry required!" .Values.dnsimple.accountId | quote }}
                 - name: ZONE_ID
-                  value: {{ required "A valid .Values.dnsimple.zoneId entry required!" .Values.dnsimple.zoneId }}
+                  value: {{ required "A valid .Values.dnsimple.zoneId entry required!" .Values.dnsimple.zoneId | quote }}
               resources:
                 {{- toYaml .Values.resources | nindent 16 }}
           {{- with .Values.nodeSelector }}
