@@ -51,12 +51,16 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
+Create the name of the secret to use
 */}}
-{{- define "dnsimple-cron-updater.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "dnsimple-cron-updater.fullname" .) .Values.serviceAccount.name }}
+{{- define "dnsimple-cron-updater.secretName" -}}
+{{- if .Values.dnsimple.existingSecret }}
+{{- .Values.dnsimple.existingSecret }}
 {{- else }}
-{{- default "default" .Values.serviceAccount.name }}
+{{- if .Values.secretnameOverride }}
+{{- .Values.secretnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- include "dnsimple-cron-updater.fullname" . }}
+{{- end }}
 {{- end }}
 {{- end }}

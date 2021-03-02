@@ -69,7 +69,7 @@ jobs:
       - name: ✅ Set version in charts
         uses: jacobtomlinson/gha-find-replace@0.1.2
         with:
-          find: "__VERSION__"
+          find: "0\\.0\\.0-replaced"
           replace: ${{ needs.image.outputs.version }}
           include: "charts/[^/]*/Chart.yaml"
 
