@@ -27,6 +27,7 @@ spec:
           labels:
             {{- include "dnsimple-cron-updater.selectorLabels" . | nindent 12 }}
         spec:
+          restartPolicy: Never
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets:
             {{- toYaml . | nindent 12 }}
