@@ -44,23 +44,23 @@ spec:
                 - name: TOKEN
                   valueFrom:
                     secretKeyRef:
-                      key: {{ include "dnsimple-cron-updater.secretName" . }}
-                      name: {{ required "A valid .Values.dnsimple.secret.tokenKey entry required!" .Values.dnsimple.secret.tokenKey | quote }}
+                      key: {{ required "A valid .Values.dnsimple.secret.tokenKey entry required!" .Values.dnsimple.secret.tokenKey | quote }}
+                      name: {{ include "dnsimple-cron-updater.secretName" . }}
                 - name: RECORD_ID
                   valueFrom:
                     secretKeyRef:
-                      key: {{ include "dnsimple-cron-updater.secretName" . }}
-                      name: {{ required "A valid .Values.dnsimple.secret.recordIdKey entry required!" .Values.dnsimple.secret.recordIdKey | quote }}
+                      key: {{ required "A valid .Values.dnsimple.secret.recordIdKey entry required!" .Values.dnsimple.secret.recordIdKey | quote }}
+                      name: {{ include "dnsimple-cron-updater.secretName" . }}
                 - name: ACCOUNT_ID
                   valueFrom:
                     secretKeyRef:
-                      key: {{ include "dnsimple-cron-updater.secretName" . }}
-                      name: {{ required "A valid .Values.dnsimple.secret.accountIdKey entry required!" .Values.dnsimple.secret.accountIdKey | quote }}
+                      key: {{ required "A valid .Values.dnsimple.secret.accountIdKey entry required!" .Values.dnsimple.secret.accountIdKey | quote }}
+                      name: {{ include "dnsimple-cron-updater.secretName" . }}
                 - name: ZONE_ID
                   valueFrom:
                     secretKeyRef:
-                      key: {{ include "dnsimple-cron-updater.secretName" . }}
-                      name: {{ required "A valid .Values.dnsimple.secret.zoneIdKey entry required!" .Values.dnsimple.secret.zoneIdKey | quote }}
+                      key: {{ required "A valid .Values.dnsimple.secret.zoneIdKey entry required!" .Values.dnsimple.secret.zoneIdKey | quote }}
+                      name: {{ include "dnsimple-cron-updater.secretName" . }}
               resources:
                 {{- toYaml .Values.resources | nindent 16 }}
           {{- with .Values.nodeSelector }}
