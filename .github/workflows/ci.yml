@@ -67,7 +67,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: ✅ Set version in charts
-        uses: jacobtomlinson/gha-find-replace@2.0.0
+        uses: jacobtomlinson/gha-find-replace@3.0.2
         with:
           find: "0\\.0\\.0-replaced"
           replace: ${{ needs.image.outputs.version }}
